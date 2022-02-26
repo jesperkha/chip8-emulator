@@ -1,0 +1,10 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build & Run",
+			"type": "shell",
+			"command": "./build.sh && ./bin/out"
+		}
+	]
+}
