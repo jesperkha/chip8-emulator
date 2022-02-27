@@ -4,7 +4,12 @@
 		{
 			"label": "Build & Run",
 			"type": "shell",
-			"command": "./build.sh && ./bin/out"
+			"command": "./build.sh && ./bin/out",
+			"problemMatcher": ["$gcc"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }
