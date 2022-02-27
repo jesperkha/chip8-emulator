@@ -2,7 +2,7 @@ set -e
 [ ! -d "bin" ] && mkdir bin
 
 FLAGS="-Wall -Werror -std=c99"
-FILES="../main.c ../emulator/*.c"
+FILES="../main.c ../draw/*.c"
 
 pushd bin
 gcc -c $FILES $FLAGS -I ../include -I ~/Coding/C/SDL2/include
