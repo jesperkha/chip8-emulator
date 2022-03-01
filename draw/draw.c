@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <draw.h>
 
-chip8_window window;
+window_t window;
 
-chip8_window* chip8win_init(char* name, int width, int height)
+window_t* chip8win_init(char* name, int width, int height)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         return NULL;
     }
 
-    SDL_Window* sdl_window = SDL_CreateWindow(name, 0, 0, width, height, 0);
+    SDL_Window* sdl_window = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
 	if (sdl_window == NULL) {
 		return NULL;
 	}
@@ -24,7 +24,7 @@ chip8_window* chip8win_init(char* name, int width, int height)
     return &window;
 }
 
-int chip8win_update(chip8_window* window)
+int chip8win_update(window_t* window)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -41,9 +41,14 @@ int chip8win_update(chip8_window* window)
     return 0;
 }
 
-void chip8win_quit(chip8_window* window)
+void chip8win_quit(window_t* window)
 {
 	SDL_DestroyRenderer(window->renderer);
 	SDL_DestroyWindow(window->window);
 	SDL_Quit();
+}
+
+void chip8win_point(window_t* window, int x, int y)
+{
+    SDL_RenderDrawPoint(window->renderer, x, y);
 }

@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv)
 {
-	chip8_window* window = chip8win_init("My Window", 640, 480);
+	window_t* window = chip8win_init("My Window", 640, 480);
 	if (window == NULL)
 	{
 		printf("Failed to init, %s", SDL_GetError());
