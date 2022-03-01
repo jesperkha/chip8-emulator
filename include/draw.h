@@ -3,6 +3,9 @@
 
 #include <SDL2/SDL.h>
 
+#define WIN_W 640
+#define WIN_H 320
+
 // Type of chip8 window. Abstraction from SDL_Window and SDl_Renderer.
 // Used for drawing single lines and pixels.
 typedef struct window_t {
@@ -12,7 +15,7 @@ typedef struct window_t {
 
 // Initialize SDL window and renderer, returns pointer to window object.
 // On error, pointer is NULL and error is fetched with SDL_GetError().
-window_t* chip8win_init(char* name, int width, int height);
+window_t* chip8win_init(char* name);
 
 // Updates renderer and then clears it. Returns 1 if the
 // window quit event was polled.
