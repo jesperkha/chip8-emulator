@@ -1,6 +1,6 @@
 #include "emu.h"
 
-int main(int argc, char** argv)
+int main()
 {
 	// Error is printed if one is raised
 	int err = start_emulation();
