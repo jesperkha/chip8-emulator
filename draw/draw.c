@@ -57,3 +57,10 @@ void chip8win_point(window_t* window, int x, int y)
         for (int j = 0; j < WIN_H / 32; j++)
             SDL_RenderDrawPoint(window->renderer, x + i, y + j);
 }
+
+void chip8win_clear(window_t* window)
+{
+    SDL_SetRenderDrawColor(window->renderer, 0, 0, 0, 255);
+    SDL_RenderClear(window->renderer);
+    SDL_RenderPresent(window->renderer);
+}

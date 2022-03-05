@@ -27,4 +27,7 @@ void chip8win_quit(window_t* window);
 // Draw single pixel at (x, y)
 void chip8win_point(window_t* window, int x, int y);
 
+// Clears screen
+void chip8win_clear(window_t* window);
+
 #endif

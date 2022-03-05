@@ -34,7 +34,7 @@ int start_emulation()
     return 0;
 }
 
-int execute_instruction(cpu_t* cpu)
+int execute_instruction(cpu_t* cpu, window_t* window)
 {
     // Fetch instruction from program counter address
     if (cpu->pc >= RAM_SIZE)
@@ -64,18 +64,23 @@ int execute_instruction(cpu_t* cpu)
     switch (args[0])
     {
     case 0x0: // 00E0 - Clear screen
+        chip8win_clear(window);
         break;
     
     case 0x1: // 1NNN - Jump
+        cpu->pc = nnn;
         break;
     
     case 0x6: // 6XNN - Set register 0xX
+        cpu->registers[x] = nn;
         break;
     
     case 0x7: // 7XNN - Add value to register 0xX
+        cpu->registers[x] += nn;
         break;
     
     case 0xA: // ANNN - Set index register
+        cpu->index = nnn;
         break;
     
     case 0xD: // DXYN - Draw
