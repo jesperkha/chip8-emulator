@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 #include "emu.h"
 #include "draw.h"
@@ -13,6 +14,8 @@ int error(char* message)
 // Todo: make clock updater for timer register
 // Todo: function for reading and writing files to RAM
 
+int execute_instruction(cpu_t* cpu, window_t* window);
+
 int start_emulation()
 {
     window_t* window = chip8win_init("CHIP-8 emulator");
@@ -20,13 +23,12 @@ int start_emulation()
         return error(ErrWindowInit);
 
     cpu_t cpu;
-    cpu.ram = malloc(RAM_SIZE);
-    // Todo: allocate registers and stack
+    cpu.ram = calloc(RAM_SIZE, sizeof(byte));
 
     while (chip8win_update(window) != 1)
     {
-        // Todo: create clock cycle
-        ;
+        int err = execute_instruction(&cpu, window);
+        if (err) return 1; // Error is fatal
     }
 
     free(cpu.ram);
@@ -84,9 +86,34 @@ int execute_instruction(cpu_t* cpu, window_t* window)
         break;
     
     case 0xD: // DXYN - Draw
+        cpu->registers[0xF] = 0;
+
+        // Draw n pixels tall sprite
+        for (int i = 0; i < n; i++)
+        {
+            // Get n'th sprite byte at index location
+            uint16_t index = cpu->index + i;
+            byte sprite_data = cpu->registers[index];
+
+            uint16_t _y = cpu->registers[y + i];
+            for (int j = 0; j < 8; j++)
+            {
+                // Get x coordinate and pixel value
+                uint16_t _x = cpu->registers[x + j];
+                uint8_t pixel_value = (sprite_data >> j) & 0x1;
+
+                // Draw pixel
+                // Todo: flip pixel values instead of just drawing SDL_GetRGB
+                // https://wiki.libsdl.org/SDL_GetWindowPixelFormat
+                // Todo: set VF to 1 if changed pixel value
+                if (pixel_value == 1)
+                    chip8win_point(window, _x % 64, _y % 32);
+            }
+        }
         break;
     
     default:
+        printf("opcode: %d\n", args[0]); // Debug
         return error(ErrUndefinedOpCode);
     }
 
